@@ -1,32 +1,20 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
-import com.github.javafaker.Faker;
 import entity.FakedUser;
 import generator.UserGenerator;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
-
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
 public class TestsWithFaker {
 
-//    public String generateDate(int days) {
-//        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-//    }
-
     @Test
     void shouldSendWithSimpleCity() {
         FakedUser user = UserGenerator.Registration.generation();
-        Faker faker = new Faker(new Locale("ru"));
-        String planningDate = LocalDateTime.now().plusDays(faker.number().numberBetween(3, 7)).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        String newPlanningDate = LocalDateTime.now().plusDays(faker.number().numberBetween(8, 30)).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String planningDate = UserGenerator.Registration.dateGeneration(3,10);
+        String newPlanningDate = UserGenerator.Registration.dateGeneration(4,10);
         Configuration.holdBrowserOpen = true;
         open("http://localhost:7777/");
         $("span[data-test-id=city] input").setValue(user.getCity());
